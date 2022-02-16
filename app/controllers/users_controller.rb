@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :registration_guardhouse,  only: [:create]
+  before_action :authentication_station, only: [:login_user]
 
   def show
     @user = User.find(params[:user_id])
@@ -27,6 +28,19 @@ class UsersController < ApplicationController
     @user = User.find(params[:user_id])
   end
 
+  def login_form
+  end
+
+  def login_user
+    if @user.present? && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect_to user_dashboard_path(@user), notice: 'Logged in successfully'
+    else
+      flash.now[:alert] = 'Invalid email or password'
+      render :login_form
+    end
+  end
+
   private
     def user_params
       params.permit(:email, :name, :password, :password_confirmation)
@@ -41,5 +55,9 @@ class UsersController < ApplicationController
         flash[:error] = 'Name cannot be blank'
         redirect_to register_path
       end
+    end
+
+    def authentication_station
+      @user = User.find_by(email: params[:email])
     end
 end
