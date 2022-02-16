@@ -36,6 +36,12 @@ describe 'welcome page' do
 
       click_on 'Home'
       expect(current_path).to eq('/')
-    end 
+    end
+
+    it 'has a link to log in' do
+      expect(page).to have_button("Log In")
+      click_on("Log In")
+      expect(current_path).to eq('/login')
+    end
   end
 end
