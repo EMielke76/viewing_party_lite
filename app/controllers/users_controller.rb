@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :registration_guardhouse,  only: [:create]
+
   def show
     @user = User.find(params[:user_id])
   end
@@ -26,8 +28,14 @@ class UsersController < ApplicationController
   end
 
   private
-
     def user_params
-      params.permit(:email, :name)
+      params.permit(:email, :name, :password, :password_confirmation)
+    end
+
+    def registration_guardhouse
+      if params[:password] != params[:password_confirmation]
+        flash[:error] = 'Password does not match!'
+        redirect_to register_path
+      end
     end
 end
