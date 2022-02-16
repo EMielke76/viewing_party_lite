@@ -37,5 +37,9 @@ class UsersController < ApplicationController
         flash[:error] = 'Password does not match!'
         redirect_to register_path
       end
+      if params[:name] == ""
+        flash[:error] = 'Name cannot be blank'
+        redirect_to register_path
+      end
     end
 end
