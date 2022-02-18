@@ -14,7 +14,7 @@ describe 'welcome page' do
       expect(current_path).to eq('/register')
     end
 
-    it 'list of existing users which link to the users dashboard' do
+    xit 'list of existing users which link to the users dashboard' do
       user = User.create(name:'Devin', email:'devin@faker.net', password: '123fake', password_confirmation: '123fake')
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
@@ -27,12 +27,6 @@ describe 'welcome page' do
       user1 = User.create(name:'Devin', email:'devin@faker.net', password: '123fake', password_confirmation: '123fake')
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user1)
       visit root_path
-      click_on 'Home'
-      expect(current_path).to eq('/')
-      
-      click_on "#{user1.email}'s Dashboard"
-      expect(current_path).to eq(dashboard_path)
-
       click_on 'Home'
       expect(current_path).to eq('/')
     end
@@ -51,6 +45,16 @@ describe 'welcome page' do
 
       expect(page).to_not have_content("Existing Users")
       expect(page).to have_content("Log in or register to join the party!")
+    end
+
+    it 'If i am registered, the page displays a list of email addresses, not show page links' do
+      user1 = User.create(name:'Devin', email:'devin@faker.net', password: '123fake', password_confirmation: '123fake')
+      user2 = User.create(name:'Eric', email:'eric@faker.net', password: '123fake', password_confirmation: '123fake')
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user1)
+      visit root_path
+
+      expect(page).to_not have_link("eric@faker.net")
+      expect(page).to have_content("eric@faker.net")
     end
   end
 end
