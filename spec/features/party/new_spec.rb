@@ -2,15 +2,16 @@ require 'rails_helper'
 
 describe 'new party' do
   VCR.use_cassette('tmdb_movie_details_new') do
-    before do
-      @perot = User.create(name: 'Jacques Perot', email: 'foundyouout@justtherighttime.net')
-      @white = User.create(name: 'Mrs. White', email: 'ididit@kitchenwithpipe.net')
-      @mustard = User.create(name: 'Colin L. Mustard', email: 'colonelspelledweird@loungewithrope.net')
-      @scarlett = User.create(name: 'Miss Scarlett', email: 'redletter@studywithknife.net')
-
+    before :each do
+      @user = User.create(name:'Eric', email:'eric@faker.net', password: 'BadTouch', password_confirmation: 'BadTouch')
+      @white = User.create(name: 'Mrs. White', email: 'ididit@kitchenwithpipe.net', password: 'BadTouch', password_confirmation: 'BadTouch')
+      @mustard = User.create(name: 'Colin L. Mustard', email: 'colonelspelledweird@loungewithrope.net', password: 'BadTouch', password_confirmation: 'BadTouch')
+      @scarlett = User.create(name: 'Miss Scarlett', email: 'redletter@studywithknife.net', password: 'BadTouch', password_confirmation: 'BadTouch')
       movie = MovieFacade.new
       @movie = movie.find_film(278)
-      visit "/users/#{@perot.id}/movies/#{@movie.first.id}/parties/new"
+      
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      visit "/movies/#{@movie.first.id}/parties/new"
     end
 
     describe 'display' do
@@ -21,7 +22,7 @@ describe 'new party' do
 
       it 'link to discover page', :vcr do
         click_on 'Discover Page'
-        expect(current_path).to eq("/users/#{@perot.id}/discover")
+        expect(current_path).to eq("/discover")
       end
 
       describe 'viewing party details form', :vcr do
@@ -45,7 +46,7 @@ describe 'new party' do
           end
 
           click_on "Let's Go Party... Lite!"
-          expect(current_path).to eq(user_dashboard_path(@perot))
+          expect(current_path).to eq(dashboard_path)
         end
 
         it 'errors if the length is shorter than movie length' do
@@ -68,7 +69,7 @@ describe 'new party' do
           end
 
           click_on "Let's Go Party... Lite!"
-          expect(current_path).to eq("/users/#{@perot.id}/movies/#{@movie.first.id}/parties/new")
+          expect(current_path).to eq("/movies/#{@movie.first.id}/parties/new")
           expect(page).to have_content("Error: Party duration cannot be shorter than movie runtime")
         end
       end

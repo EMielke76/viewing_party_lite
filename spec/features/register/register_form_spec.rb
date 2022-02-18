@@ -23,7 +23,7 @@ RSpec.describe 'Registration form page' do
       fill_in :password_confirmation, with: 'HappysABitch'
 
       click_on("Create New User")
-      expect(current_path).to eq("/users/#{User.last.id}/dashboard")
+      expect(current_path).to eq("/dashboard")
     end
   end
 

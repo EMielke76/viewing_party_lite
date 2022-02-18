@@ -19,7 +19,7 @@ RSpec.describe 'login form page' do
       fill_in :password, with: "Happys4B1tch"
       click_on("Login")
 
-      expect(current_path).to eq("/users/#{bob.id}/dashboard")
+      expect(current_path).to eq("/dashboard")
     end
   end
 

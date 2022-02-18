@@ -2,25 +2,26 @@ require 'rails_helper'
 
 RSpec.describe 'Movie Show Page' do
   before :each do
-    @user = User.create!(name: "Bob Barker", email: "ThePriceIsWrong@example.com")
+    @user = User.create(name:'Eric', email:'eric@faker.net', password: 'BadTouch', password_confirmation: 'BadTouch')
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   end
 
   it 'displays a button to create a viewing party' do
     VCR.use_cassette('tmbd_movie_details_with_credits&reviews') do
-      visit "/users/#{@user.id}/movies/278"
+      visit movie_path(278)
 
       expect(page).to have_button("Create Viewing Party!")
       click_on "Create Viewing Party!"
-      expect(current_path).to eq("/users/#{@user.id}/movies/278/parties/new")
+      expect(current_path).to eq("/movies/278/parties/new")
     end
   end
 
   it 'displays a button to return to the Discover Page', :vcr do
-    visit "/users/#{@user.id}/movies/278"
+    visit movie_path(278)
 
     expect(page).to have_button("Return to Discover Page")
     click_on "Return to Discover Page"
-    expect(current_path).to eq("/users/#{@user.id}/discover")
+    expect(current_path).to eq(discover_path)
   end
 
   it 'displays the movies attributes', :vcr do
@@ -32,7 +33,7 @@ RSpec.describe 'Movie Show Page' do
      ' sense of hope.'
      username = "elshaarawy"
      rating = 9.0
-    visit "/users/#{@user.id}/movies/278"
+    visit movie_path(278)
 
     expect(page).to have_content("Shawshank Redemption")
     expect(page).to have_content("Details:")
