@@ -1,13 +1,11 @@
 class UsersController < ApplicationController
   before_action :registration_guardhouse,  only: [:create]
-  before_action :authentication_station, only: [:login_user]
 
   def show
-    @user = User.find(params[:user_id])
+    current_user
   end
 
   def new
-    @user = User.new
   end
 
   def create
@@ -17,7 +15,7 @@ class UsersController < ApplicationController
     if new_user.save
       flash[:success] = 'Account Successfully Created!'
       session[:user_id] = new_user.id
-      redirect_to user_dashboard_path(new_user.id)
+      redirect_to dashboard_path
     else
       flash[:error] = 'Email address is blank/already in use.'
       redirect_to register_path
@@ -25,21 +23,9 @@ class UsersController < ApplicationController
   end
 
   def discover
-    @user = User.find(params[:user_id])
+    current_user
   end
 
-  def login_form
-  end
-
-  def login_user
-    if @user.present? && @user.authenticate(params[:password])
-      session[:user_id] = @user.id
-      redirect_to user_dashboard_path(@user), notice: 'Logged in successfully'
-    else
-      flash.now[:alert] = 'Invalid email or password'
-      render :login_form
-    end
-  end
 
   private
     def user_params
@@ -55,9 +41,5 @@ class UsersController < ApplicationController
         flash[:error] = 'Name cannot be blank'
         redirect_to register_path
       end
-    end
-
-    def authentication_station
-      @user = User.find_by(email: params[:email])
     end
 end

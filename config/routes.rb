@@ -1,14 +1,17 @@
 Rails.application.routes.draw do
   root 'welcome#index'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
   get '/register', to: 'users#new'
-  get '/login', to: 'users#login_form'
-  post '/login', to: 'users#login_user'
-  resources :users, only: [:create, :show] do
-    resources :movies, only: [:index, :show] do
-      resources :parties, only: [:new, :create]
-    end
-    get '/discover', to: 'users#discover'
-    get '/dashboard', to: 'users#show'
-    post '/dashboard', to: 'users#show'
+  post '/register', to: 'users#create'
+  get '/dashboard', to: 'users#show'
+  post '/dashboard', to: 'users#show'
+
+  get '/discover', to: 'users#discover'
+  # resources :users, only: [:create, :show] do
+  resources :movies, only: [:index, :show] do
+    resources :parties, only: [:new, :create]
   end
 end

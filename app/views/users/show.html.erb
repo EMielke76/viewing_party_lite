@@ -1,37 +1,37 @@
-<center><h2><%=@user.name%>'s Dashboard</h2></center>
+<center><h2><%=current_user.name%>'s Dashboard</h2></center>
 
 <center><section id="discover_movies">
-<%= button_to "Discover Movies", "/users/#{@user.id}/discover", method: :get %>
+<%= button_to "Discover Movies", "/discover", method: :get %>
 </section></center>
 
 <center><h3>It's Party Time!</h3></center>
 <hr>
 <center><h4>Viewing Parties</h4></center>
-<% @user.parties.each do |party| %>
-  <% if party.host_id == @user.id %>
+<% current_user.parties.each do |party| %>
+  <% if party.host_id == current_user.id %>
     <h4>My Parties</h4>
     <section id="party_time_host_<%=party.id%>">
-      <h4>Film: <%=link_to "#{find_film(party.movie_id).first.title}", "/users/#{@user.id}/movies/#{party.movie_id}" %> </h4>
+      <h4>Film: <%=link_to "#{find_film(party.movie_id).first.title}", "/movies/#{party.movie_id}" %> </h4>
       <img src="https://image.tmdb.org/t/p/w200/<%=find_film(party.movie_id).first.poster%>?api_key=<%=ENV['movie_api_key']%>">
       <p>Date: <%=party.date.strftime('%a, %B %d, %Y')%> </p>
       <p>Time: <%=party.start_time.strftime("%I:%M%p")%> </p>
-      <p>Host: <b><%=@user.name %></b></p>
+      <p>Host: <b><%=current_user.name %></b></p>
       <h4>Who's Invited?</h4>
       <%party.users.each do |user|%>
         <p><%=user.name%></p>
       <%end%>
     </section>
-  <% else party.host_id != @user.id %>
+  <% else party.host_id != current_user.id %>
     <h4>Parties I've Been Invited To</h4>
     <section id="party_time_guest_<%=party.id%>">
-    <h4>Film: <%=link_to "#{find_film(party.movie_id).first.title}", "/users/#{@user.id}/movies/#{party.movie_id}" %> </h4>
+    <h4>Film: <%=link_to "#{find_film(party.movie_id).first.title}", "/movies/#{party.movie_id}" %> </h4>
     <img src="https://image.tmdb.org/t/p/w200/<%=find_film(party.movie_id).first.poster%>?api_key=<%=ENV['movie_api_key']%>">
     <p>Date: <%=party.date.strftime('%a, %B %d, %Y')%> </p>
     <p>Time: <%=party.start_time.strftime("%I:%M%p")%> </p>
     <p>Host: <b><%=party.whos_hosting? %></b></p>
     <h4>Who's Invited?</h4>
     <%party.users.each do |user|%>
-      <% if user.name == @user.name %>
+      <% if user.name == current_user.name %>
         <p><b><%=user.name%></b></p>
       <% else %>
         <p><%=user.name%></p>
