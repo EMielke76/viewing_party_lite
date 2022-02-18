@@ -5,7 +5,11 @@
   <center><%= button_to 'Log In', '/login', method: :get %></center>
 <% end %>
 
-<center><p>Existing Users:</p></center>
-<center><% @users.each do |user| %>
-  <p><%= link_to "#{user.email}'s Dashboard", "/dashboard" %></p>
-<% end %></center>
+<% if !current_user %>
+  <p>Log in or register to join the party!</p>
+<% else %>
+  <center><p>Existing Users:</p></center>
+  <center><% @users.each do |user| %>
+    <p><%= link_to "#{user.email}'s Dashboard", "/dashboard" %></p>
+  <% end %></center>
+<% end %>
