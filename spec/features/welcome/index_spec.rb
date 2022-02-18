@@ -56,5 +56,13 @@ describe 'welcome page' do
       expect(page).to_not have_link("eric@faker.net")
       expect(page).to have_content("eric@faker.net")
     end
+
+    it 'displays a message telling me I must log in to access a dashboard' do
+      visit root_path
+      expect(page).to_not have_content("You must be logged in or registered to access the dashboard")
+
+      click_on("Dashboard")
+      expect(page).to have_content("You must be logged in or registered to access the dashboard")
+    end
   end
 end
