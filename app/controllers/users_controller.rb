@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :registration_guardhouse,  only: [:create]
-
+  before_action :members_only, only: [:show]
   def show
     current_user
   end
@@ -40,6 +40,13 @@ class UsersController < ApplicationController
       if params[:name] == ""
         flash[:error] = 'Name cannot be blank'
         redirect_to register_path
+      end
+    end
+
+    def members_only
+      if !current_user
+        flash[:message] = 'You must be logged in or registered to perform this action'
+        redirect_to root_path
       end
     end
 end
