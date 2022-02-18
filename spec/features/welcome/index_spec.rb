@@ -62,7 +62,7 @@ describe 'welcome page' do
       expect(page).to_not have_content("You must be logged in or registered to access the dashboard")
 
       click_on("Dashboard")
-      expect(page).to have_content("You must be logged in or registered to access the dashboard")
+      expect(page).to have_content("You must be logged in or registered to perform this action")
     end
   end
 end

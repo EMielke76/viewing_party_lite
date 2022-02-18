@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
     def members_only
       if !current_user
-        flash[:message] = 'You must be logged in or registered to access the dashboard'
+        flash[:message] = 'You must be logged in or registered to perform this action'
         redirect_to root_path
       end
     end
