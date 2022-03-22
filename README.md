@@ -13,6 +13,8 @@ A Full-Stack repository built to consume endpoints from [The Movie Database](htt
 
 This project is based off Turing's viewing_party_lite project. More details can be found [here](https://backend.turing.edu/module3/projects/viewing_party_lite/index)
 
+Originally built in collaboration with fellow student, refactored to utilitze `sessions` and `cookies` as a solo.
+
 ### <ins>Setup</ins>
 1. Fork and Clone the repo
 2. Install gem packages: `bundle install`
