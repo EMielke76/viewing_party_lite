@@ -8,6 +8,7 @@
 
 ## Table of contents
 - [Overview](#overview)
+- [DB Schema](#schema)
 - [Setup](#setup)
 - [API Setup](#api-setup)
 - [Technologies](#technologies)
@@ -15,11 +16,14 @@
 
 ## <ins>Overview</ins>
 
-A Full-Stack repository built to consume endpoints from [The Movie Database](https://www.themoviedb.org/) API that would allow a user to search for movies nd then create a "Viewing Party" where they may invite other users to viwe the movie with them. This reposity was constructed following RESTful design patterns adhering to Service Oriented Architecture best practices. 
+A Full-Stack repository built to consume endpoints from [The Movie Database](https://www.themoviedb.org/) API that would allow a user to search for movies nd then create a "Viewing Party" where they may invite other users to viwe the movie with them. User's were persisted to the database using Bcrypt authentication. This reposity was constructed following RESTful design patterns adhering to Service Oriented Architecture best practices. 
 
 This project is based off Turing's viewing_party_lite project. More details can be found [here](https://backend.turing.edu/module3/projects/viewing_party_lite/index)
 
 Originally built in collaboration with fellow student, refactored to utilitze `sessions` and `cookies` as a solo.
+
+## <ins>Schema</ins>
+![image](https://user-images.githubusercontent.com/81482407/159398475-f218aab6-5b7f-4a72-94c9-37b6eae8bf29.png)
 
 ### <ins>Setup</ins>
 1. Fork and Clone the repo
